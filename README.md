@@ -29,4 +29,4 @@ Aquest repositori està destinat a organitzar tots els materials, exercicis i pr
 
 1. Clona aquest repositori al teu ordinador:  
    ```bash
-   git clone https://github.com/usuario/Enfocat-IA-Python.git
+   git clone https://github.com/GCalaf/Enfocat-IA-Python.git
