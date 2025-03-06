@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Transacciones{% endblock %}
+
+{% block content %}
+<h1>Lista de Transacciones</h1>
+<table>
+    <tr>
+        <th>Inversión</th>
+        <th>Fecha</th>
+        <th>Monto</th>
+        <th>Tipo</th>
+        <th>Acciones</th>
+    </tr>
+    {% for transaction in transactions %}
+    <tr>
+        <td>{{ transaction.investment.name }}</td>
+        <td>{{ transaction.transaction_date }}</td>
+        <td>{{ transaction.amount }}</td>
+        <td>{{ transaction.transaction_type }}</td>
+        <td>
+            <a href="{% url 'transactions:transaction_detail' transaction.pk %}">Ver</a>
+            <a href="{% url 'transactions:transaction_edit' transaction.pk %}">Editar</a>
+            <a href="{% url 'transactions:transaction_delete' transaction.pk %}" onclick="return confirm('¿Estás seguro de que deseas eliminar la transacción?');">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'transactions:transaction_new' %}">Agregar nueva transacción</a>
+{% endblock %}

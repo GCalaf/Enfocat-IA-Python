@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Inversiones GCV{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'index' %}">Inicio</a></li>
+            <li><a href="{% url 'portfolio:investment_list' %}">Inversiones</a></li>
+            <li><a href="{% url 'transactions:transaction_list' %}">Transacciones</a></li>
+            {% if user.is_authenticated %}
+                <li><span>Hola, {{ user.username }}!</span></li>
+                <li>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" style="background:none;border:none;color:inherit;cursor:pointer;">Cerrar Sesión</button>
+                    </form>
+                </li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+                <li><a href="{% url 'signup' %}">Registrarse</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
+    <footer>
+        &copy; 2025 Inversiones GCV. Todos los derechos reservados.
+    </footer>
+</body>
+</html>
