@@ -32,9 +32,7 @@ def investment_edit(request, pk):
     if request.method == "POST":
         form = InvestmentForm(request.POST, instance=investment)
         if form.is_valid():
-            investment = form.save(commit=False)
-            investment.user = request.user
-            investment.save()
+            form.save()
             return redirect('portfolio:investment_detail', pk=investment.pk)
     else:
         form = InvestmentForm(instance=investment)

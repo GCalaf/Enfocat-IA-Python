@@ -3,12 +3,16 @@
 {% block title %}Detalle de la Transacción{% endblock %}
 
 {% block content %}
-<h1>Detalle de la Transacción</h1>
+<h1 class="my-4">Detalle de la Transacción</h1>
 <p><strong>Inversión:</strong> {{ transaction.investment.name }}</p>
 <p><strong>Fecha:</strong> {{ transaction.transaction_date }}</p>
 <p><strong>Monto:</strong> {{ transaction.amount }}</p>
-<p><strong>Tipo:</strong> {{ transaction.transaction_type }}</p>
-<a href="{% url 'transactions:transaction_edit' transaction.pk %}">Editar</a>
-<a href="{% url 'transactions:transaction_delete' transaction.pk %}" onclick="return confirm('¿Estás seguro de que deseas eliminar la transacción?');">Eliminar</a>
-<a href="{% url 'transactions:transaction_list' %}">Volver a la lista</a>
+<p><strong>Propósitos:</strong>
+    {% for purpose in transaction.purposes.all %}
+    {{ purpose.name }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+</p>
+<a href="{% url 'transactions:transaction_edit' transaction.pk %}" class="btn btn-warning">Editar</a>
+<a href="{% url 'transactions:transaction_delete' transaction.pk %}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar la transacción?');">Eliminar</a>
+<a href="{% url 'transactions:transaction_list' %}" class="btn btn-secondary">Volver a la lista</a>
 {% endblock %}
