@@ -1,37 +1,77 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Inversiones GCV{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!-- Incluir Bootstrap desde un CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Incluir Font Awesome desde un CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
+
 <body>
-    <nav>
-        <ul>
-            <li><a href="{% url 'index' %}">Inicio</a></li>
-            <li><a href="{% url 'portfolio:investment_list' %}">Inversiones</a></li>
-            <li><a href="{% url 'transactions:transaction_list' %}">Transacciones</a></li>
-            {% if user.is_authenticated %}
-                <li><span>Hola, {{ user.username }}!</span></li>
-                <li>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <img src="{% static 'images/logo.png' %}" alt="Logo" width="30" height="30">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'portfolio:investment_list' %}"><i class="fas fa-chart-line"></i> Inversiones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'transactions:transaction_list' %}"><i class="fas fa-exchange-alt"></i> Transacciones</a>
+                </li>
+                {% if request.user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'transactions:manage_purposes' %}"><i class="fas fa-cogs"></i> Administrar Propósitos</a>
+                </li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item d-flex align-items-center">
+                    {% if user.profile.image %}
+                    <img src="{{ user.profile.image.url }}" alt="Imagen de perfil" width="30" height="30" class="rounded-circle">
+                    {% endif %}
+                    <a class="nav-link" href="{% url 'profile' %}">{{ user.username }}</a>
+                </li>
+                <li class="nav-item">
                     <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
-                        <button type="submit" style="background:none;border:none;color:inherit;cursor:pointer;">Cerrar Sesión</button>
+                        <button type="submit" class="btn btn-link nav-link"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
                     </form>
                 </li>
-            {% else %}
-                <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
-                <li><a href="{% url 'signup' %}">Registrarse</a></li>
-            {% endif %}
-        </ul>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'signup' %}"><i class="fas fa-user-plus"></i> Registrarse</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
     </nav>
-    <div>
+    <div class="container mt-4">
         {% block content %}
         {% endblock %}
     </div>
-    <footer>
-        &copy; 2025 Inversiones GCV. Todos los derechos reservados.
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+            <span class="text-muted">&copy; 2025 Inversiones GCV. Todos los derechos reservados.</span>
+        </div>
     </footer>
+    <!-- Incluir scripts de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

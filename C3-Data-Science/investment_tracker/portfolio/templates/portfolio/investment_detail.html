@@ -3,13 +3,14 @@
 {% block title %}Detalle de la Inversión{% endblock %}
 
 {% block content %}
-<h1>Detalle de la Inversión</h1>
+<h1 class="my-4">Detalle de la Inversión</h1>
 <p><strong>Nombre:</strong> {{ investment.name }}</p>
+<p><strong>Descripción:</strong> {{ investment.description }}</p>
 <p><strong>Monto Inicial:</strong> {{ investment.initial_amount }}</p>
 <p><strong>Valor Actual:</strong> {{ investment.current_value }}</p>
 <p><strong>Fecha de Compra:</strong> {{ investment.purchase_date }}</p>
 <p><strong>Tipo de Inversión:</strong> {{ investment.investment_type }}</p>
-<a href="{% url 'portfolio:investment_edit' investment.pk %}">Editar</a>
-<a href="{% url 'portfolio:investment_delete' investment.pk %}" onclick="return confirm('¿Estás seguro de que deseas eliminar la inversión?');">Eliminar</a>
-<a href="{% url 'portfolio:investment_list' %}">Volver a la lista</a>
+<a href="{% url 'portfolio:investment_edit' investment.pk %}" class="btn btn-warning">Editar</a>
+<a href="{% url 'portfolio:investment_delete' investment.pk %}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar la inversión?');">Eliminar</a>
+<a href="{% url 'portfolio:investment_list' %}" class="btn btn-secondary">Volver a la lista</a>
 {% endblock %}

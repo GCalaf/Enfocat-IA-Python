@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from .forms import CustomUserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
+from .forms import CustomUserCreationForm, ProfileForm, CustomAuthenticationForm
+from .models import Profile
 
 def signup(request):
     if request.method == 'POST':
@@ -12,3 +15,24 @@ def signup(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
+
+@login_required
+def profile(request):
+    profile = Profile.objects.get(user=request.user)
+    return render(request, 'users/profile.html', {'profile': profile})
+
+@login_required
+def update_profile(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = ProfileForm(instance=profile)
+    return render(request, 'users/profile_edit.html', {'form': form})
+
+class CustomLoginView(LoginView):
+    form_class = CustomAuthenticationForm
+    template_name = 'registration/login.html'

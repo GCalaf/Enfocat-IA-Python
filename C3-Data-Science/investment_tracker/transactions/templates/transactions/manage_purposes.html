@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Administrar Propósitos{% endblock %}
+
+{% block content %}
+<h1>Administrar Propósitos</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Añadir Propósito</button>
+</form>
+
+<h2>Propósitos Existentes</h2>
+<ul>
+    {% for purpose in purposes %}
+    <li>
+        {{ purpose.name }}
+        <a href="{% url 'transactions:delete_purpose' purpose.pk %}">Eliminar</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
