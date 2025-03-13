@@ -5,6 +5,7 @@ from django.contrib.auth.views import LoginView
 from .forms import CustomUserCreationForm, ProfileForm, CustomAuthenticationForm
 from .models import Profile
 
+# Vista para el registro de nuevos usuarios
 def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -16,11 +17,13 @@ def signup(request):
         form = CustomUserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
 
+# Vista para mostrar el perfil del usuario
 @login_required
 def profile(request):
     profile = Profile.objects.get(user=request.user)
     return render(request, 'users/profile.html', {'profile': profile})
 
+# Vista para actualizar el perfil del usuario
 @login_required
 def update_profile(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
@@ -33,6 +36,7 @@ def update_profile(request):
         form = ProfileForm(instance=profile)
     return render(request, 'users/profile_edit.html', {'form': form})
 
+# Vista personalizada para el inicio de sesión
 class CustomLoginView(LoginView):
     form_class = CustomAuthenticationForm
     template_name = 'registration/login.html'

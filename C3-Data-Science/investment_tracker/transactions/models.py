@@ -1,12 +1,14 @@
 from django.db import models
 from portfolio.models import Investment
 
+# Modelo para representar un propósito de una transacción
 class Purpose(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
+# Modelo para representar una transacción
 class Transaction(models.Model):
     investment = models.ForeignKey(Investment, on_delete=models.CASCADE)
     transaction_date = models.DateField()

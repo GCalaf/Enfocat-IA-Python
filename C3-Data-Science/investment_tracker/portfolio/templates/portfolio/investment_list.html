@@ -8,15 +8,13 @@
     <thead>
         <tr>
             <th>Nombre</th>
-            <th>Descripción</th>
             <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-        {% for investment in investments %}
+        {% for investment in page_obj %}
         <tr>
             <td>{{ investment.name }}</td>
-            <td>{{ investment.description }}</td>
             <td>
                 <a href="{% url 'portfolio:investment_detail' investment.pk %}" class="btn btn-info btn-sm">Ver</a>
                 <a href="{% url 'portfolio:investment_edit' investment.pk %}" class="btn btn-warning btn-sm">Editar</a>
@@ -26,5 +24,22 @@
         {% endfor %}
     </tbody>
 </table>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 <a href="{% url 'portfolio:investment_new' %}" class="btn btn-primary">Agregar nueva inversión</a>
 {% endblock %}
